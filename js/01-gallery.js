@@ -1,6 +1,6 @@
-import { galleryItems } from './gallery-items.js';
+import { galleryItems } from "./gallery-items.js";
 
-const gallery = document.querySelector('.gallery');
+const gallery = document.querySelector(".gallery");
 
 const galleryMarkup = galleryItems
   .map(
@@ -16,14 +16,14 @@ const galleryMarkup = galleryItems
         </a>
       </li>`
   )
-  .join('');
+  .join("");
 
 gallery.innerHTML = galleryMarkup;
 
-gallery.addEventListener('click', (event) => {
+gallery.addEventListener("click", (event) => {
   event.preventDefault();
 
-  if (event.target.classList.contains('gallery__image')) {
+  if (event.target.classList.contains("gallery__image")) {
     const instance = basicLightbox.create(`
       <img width="800" height="600" src="${event.target.dataset.source}">
     `);
@@ -31,8 +31,8 @@ gallery.addEventListener('click', (event) => {
   }
 });
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
     const instance = basicLightbox.getInstance();
     if (instance) {
       instance.close();
