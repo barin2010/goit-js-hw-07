@@ -1,12 +1,46 @@
-import SimpleLightbox from 'simplelightbox';
-import { galleryItems } from './gallery-items.js';
+import { galleryItems } from "./gallery-items.js";
 
-// Initialize SimpleLightbox
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
+const gallery = document.querySelector(".gallery");
+
+const galleryMarkup = galleryItems
+  .map(
+    ({ preview, original, description }) =>
+      `<li class="gallery__item">
+        <a class="gallery__link" href="${original}">
+          <img
+            class="gallery__image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+          />
+        </a>
+      </li>`
+  )
+  .join("");
+
+gallery.innerHTML = galleryMarkup;
+
+gallery.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  if (event.target.classList.contains("gallery__image")) {
+    const instance = basicLightbox.create(`
+      <img width="800" height="600" src="${event.target.dataset.source}">
+    `);
+    instance.show();
+  }
 });
 
-// You can also add more options to customize the behavior
-
-console.log(galleryItems);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    const instance = basicLightbox.getInstance();
+    if (instance) {
+      instance.close();
+    }
+  }
+});
+const lightbox = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionPosition: "bottom",
+  captionDelay: 250,
+});
