@@ -27,15 +27,22 @@ gallery.addEventListener("click", (event) => {
     const instance = basicLightbox.create(`
       <img width="800" height="600" src="${event.target.dataset.source}">
     `);
-    instance.show();
-  }
-});
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    const instance = basicLightbox.getInstance();
-    if (instance) {
-      instance.close();
-    }
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") {
+        instance.close();
+        window.removeEventListener("keyup", closeOnEscape);
+      }
+    };
+
+    instance.on("show", () => {
+      window.addEventListener("keyup", closeOnEscape);
+    });
+
+    instance.on("close", () => {
+      window.removeEventListener("keyup", closeOnEscape);
+    });
+
+    instance.show();
   }
 });

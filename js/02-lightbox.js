@@ -20,25 +20,6 @@ const galleryMarkup = galleryItems
 
 gallery.innerHTML = galleryMarkup;
 
-gallery.addEventListener("click", (event) => {
-  event.preventDefault();
-
-  if (event.target.classList.contains("gallery__image")) {
-    const instance = basicLightbox.create(`
-      <img width="800" height="600" src="${event.target.dataset.source}">
-    `);
-    instance.show();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    const instance = basicLightbox.getInstance();
-    if (instance) {
-      instance.close();
-    }
-  }
-});
 const lightbox = new SimpleLightbox(".gallery a", {
   captionsData: "alt",
   captionPosition: "bottom",
