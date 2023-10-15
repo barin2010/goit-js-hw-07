@@ -6,7 +6,7 @@ const galleryMarkup = galleryItems
   .map(
     ({ preview, original, description }) =>
       `<li class="gallery__item">
-        <a class="gallery__link" href="${original}">
+        <a class "gallery__link" href="${original}">
           <img
             class="gallery__image"
             src="${preview}"
@@ -29,20 +29,19 @@ gallery.addEventListener("click", (event) => {
     `);
 
     const closeOnEscape = (event) => {
-      if (event.key === "Escape") {
+      if (event.code === "Escape") {
         instance.close();
-        window.removeEventListener("keyup", closeOnEscape);
+        window.removeEventListener("keydown", closeOnEscape);
       }
     };
 
-    instance.on("show", () => {
-      window.addEventListener("keyup", closeOnEscape);
-    });
-
-    instance.on("close", () => {
-      window.removeEventListener("keyup", closeOnEscape);
-    });
-
     instance.show();
+    window.addEventListener("keydown", closeOnEscape);
+    instance.element().addEventListener("click", (event) => {
+      if (event.target.tagName === "IMG") {
+        instance.close();
+        window.removeEventListener("keydown", closeOnEscape);
+      }
+    });
   }
 });
